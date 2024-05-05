@@ -1,30 +1,50 @@
-import React, { createContext, useContext, useState } from 'react';
+// CartContext.js
+
+import React, { createContext, useContext, useReducer } from 'react';
 
 const CartContext = createContext();
 
-export const useCart = () => useContext(CartContext);
+const initialCartState = { items: [] };
+
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_ITEM':
+      const existingItem = state.items.find(item => item.cheeseId === action.payload.cheeseId);
+      if (existingItem) {
+        return {
+          ...state,
+          items: state.items.map(item =>
+            item.cheeseId === action.payload.cheeseId ? { ...item, quantity: item.quantity + 1 } : item
+          ),
+        };
+      }
+      return {
+        ...state,
+        items: [...state.items, { ...action.payload, quantity: 1 }],
+      };
+    case 'REMOVE_ITEM':
+      return {
+        ...state,
+        items: state.items.filter(item => item.cheeseId !== action.payload.cheeseId),
+      };
+    case 'UPDATE_QUANTITY':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.cheeseId === action.payload.cheeseId ? { ...item, quantity: action.payload.quantity } : item
+        ),
+      };
+    default:
+      return state;
+  }
+};
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
-  const addToCart = (item) => {
-    setCartItems(currentItems => {
-      // Check if item already exists
-      const itemIndex = currentItems.findIndex(ci => ci.cheeseId === item.cheeseId);
-      if (itemIndex > -1) {
-        // If exists, update the quantity
-        const newItems = [...currentItems];
-        newItems[itemIndex].quantity += item.quantity;
-        return newItems;
-      }
-      // If not exists, add new item
-      return [...currentItems, item];
-    });
-  };
-
-  return (
-    <CartContext.Provider value={{ cartItems, addToCart }}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={{ state, dispatch }}>
+    {children}
+  </CartContext.Provider>;
 };
+
+export const useCart = () => useContext(CartContext);

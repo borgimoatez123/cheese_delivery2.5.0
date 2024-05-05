@@ -9,6 +9,7 @@ import { UserLocationContext } from './app/context/UserLocationContext';
 import BottomTab from './app/navigation/BottomTab';
 import * as Location from 'expo-location';
 import InStore from './app/screens/InStore';
+import StoreDirection from './app/screens/StoreDirection';
 import { CartProvider } from './app/context/CartContext';
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ const App = () => {
               options={{ headerShown: false }}
             />
 <Stack.Screen name="InStore" component={InStore}  options={{ headerShown: false }}/>
+<Stack.Screen name="StoreDirection" component={StoreDirection}  options={{ headerShown: false }}/>
 
           </Stack.Navigator>
         

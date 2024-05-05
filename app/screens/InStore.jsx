@@ -5,14 +5,13 @@ import {
   Ionicons
 } from "@expo/vector-icons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-
-
-
+import { EvilIcons } from '@expo/vector-icons';
+import Carousel from '../components/Carousel';
 
 const InStore = ({ route, navigation }) => {
 
   
-  const { storeData, storeName, storeImage } = route.params;
+  const { storeData, storeName, carouselImages ,phone } = route.params;
 
   const [selectedItems, setSelectedItems] = useState({});
 
@@ -26,17 +25,16 @@ const InStore = ({ route, navigation }) => {
   }
 console.log(handleSelectItem)
 const handleConfirm = () => {
-  // Collect all items that have a quantity more than 0
   const selectedItemsDetails = storeData.filter(item => selectedItems[item._id] > 0).map(item => {
     return {
-      id: item._id,
+      id: item._id,  
+      cheeseId: item._id,  
       name: item.name,
       price: item.price,
       quantity: selectedItems[item._id]
     };
   });
 
-  // Navigate to CardScreen with the selected items as parameters
   if (selectedItemsDetails.length > 0) {
     navigation.navigate('Cart', { items: selectedItemsDetails });
   } else {
@@ -64,11 +62,22 @@ const handleConfirm = () => {
 
   return (
     <View style={{ backgroundColor: COLORS.lightWhite, height: SIZES.height }}>
-      <Image source={{ uri: storeImage }} style={{ width: SIZES.width, height: SIZES.height / 4, borderBottomRightRadius: 30 }} />
+  <Carousel images={carouselImages} style={{ width: SIZES.width, height: SIZES.height / 4, borderBottomRightRadius: 30 }} />
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
         <Ionicons name="chevron-back-circle" size={30} color={COLORS.primary} />
       </TouchableOpacity>
+      <TouchableOpacity
+          onPress={() => navigation.navigate('StoreDirection')}
+          style={{ position: "absolute", bottom: 25, right: 3 }}
+        >
+          <View style={styles.restBtn}>
+      
+          <EvilIcons name="location" size={30} color="white" />
+          
+          </View>
+        </TouchableOpacity>
       <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>{storeName}</Text>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>{phone}</Text>
       <ScrollView style={{ padding: 20 }}>
         <FlatList
           data={storeData}
@@ -169,4 +178,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     alignItems: "center",
   },
+  restBtn: {
+    borderColor: COLORS.lightWhite,
+    backgroundColor: COLORS.primary,
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 5,
+    marginRight: 10,
+    marginBottom:550,
+  }
 });

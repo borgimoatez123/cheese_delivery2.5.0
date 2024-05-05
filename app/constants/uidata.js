@@ -50,21 +50,38 @@ export const categories = [
 export const Store=[
     {
       "id": 1,
-      "name": "La Fermme",
+      "name": "La ferme de Beja",
       "image": "https://i.ibb.co/q0yfhKX/images-1.jpg",
       "description": "cheese shop",
       "address": "Avenue Habib Bourguiba, Beja",
       "stars": 4,
-      "reviews": "4.4k"
+      "reviews": "4.4k",
+      "phone":"54 955 155",
+      "carouselImages": [
+        "https://i.ibb.co/q0yfhKX/images-1.jpg",
+        "https://i.ibb.co/q0yfhKX/images-1.jpg",
+        "https://i.ibb.co/q0yfhKX/images-1.jpg",
+        "https://i.ibb.co/q0yfhKX/images-1.jpg",
+      ]
     },
     {
       "id": 2,
       "name": "Borj Lella",
       "image": "https://i.ibb.co/RyCF33T/Borj-Lella.png",
+   
       "description": "cheese shop",
       "address": "P5FM+5XF, Beja",
       "stars": 4,
-      "reviews": "4.4k"
+        
+      "phoone":"93 203 103",
+      "reviews": "4.4k",
+ 
+      "carouselImages": [
+        "https://borjlella.com/fr/wp-content/uploads/2019/01/Borjlella001.jpg",
+        "https://borjlella.com/fr/wp-content/uploads/2019/01/Borjlella005.jpg",
+        "https://borjlella.com/fr/wp-content/uploads/2019/01/Table-borjella.jpg",
+        "https://borjlella.com/fr/wp-content/uploads/2019/01/carborjlella.jpg",
+      ]
     },
     {
       "id": 3,
@@ -73,7 +90,8 @@ export const Store=[
       "description": "cheese shop",
       "address": "P5FM+5XF, Beja",
       "stars": 4,
-      "reviews": "4.4k"
+      "reviews": "4.4k",
+      "phone":"54 955 155",
     },
     {
       "id": 4,

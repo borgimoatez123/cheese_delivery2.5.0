@@ -24,7 +24,8 @@ const CheeseCard = () => {
         title.trim().toLowerCase() === normalizedServerCategory
     );
     return {
-        id: product._id, // Assuming the unique identifier from the server is '_id'
+        id: product._id, 
+       
         name: product.name,
         imageUrl: uiProduct ? uiProduct.imageUrl : 'https://via.placeholder.com/150',
         price: product.price,
@@ -45,8 +46,7 @@ const CheeseCard = () => {
         // Pass data to Cart component via navigation with cheeseId
         navigation.navigate('Cart', {
             items: [{
-                cheeseId: product.id, // Assuming 'id' from server data is used as 'cheeseId'
-                name: product.name,
+                id: product.id, 
                 price: product.price,
                 quantity: 1, // Assuming initial quantity
             }]

@@ -35,7 +35,7 @@ const StoreCardHome = () => {
           <TouchableOpacity onPress={() => {
             // Filter food data based on the store name
             const filteredData = cheesesData.filter(food => food.store === item.name);
-            navigation.navigate('InStore', { storeData: filteredData , storeName: item.name,storeImage: item.image  });
+            navigation.navigate('InStore', { storeData: filteredData , storeName: item.name,storeImage: item.image ,carouselImages: item.carouselImages ,phone:item.phone });
           }}>
             <View style={styles.storeCard}>
               <Image source={{ uri: item.image }} style={styles.storeImage} />

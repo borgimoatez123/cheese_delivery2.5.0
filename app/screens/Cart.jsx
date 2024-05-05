@@ -10,23 +10,22 @@ const Cart = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useUser();
   const { items } = route.params;
-  console.log(items);
   const [cartItems, setCartItems] = useState(items.map(item => ({ ...item, currentPrice: item.price })));
 
-  const handleIncreasePrice = (index) => {
+  const handleIncreaseQuantity = (index) => {
     const newItems = cartItems.map((item, idx) => {
       if (idx === index) {
-        return { ...item, currentPrice: item.currentPrice * 2 };
+        return { ...item, quantity: item.quantity + 1 };
       }
       return item;
     });
     setCartItems(newItems);
   };
 
-  const handleDecreasePrice = (index) => {
+  const handleDecreaseQuantity = (index) => {
     const newItems = cartItems.map((item, idx) => {
-      if (idx === index && item.currentPrice / 2 >= item.price) { // Ensure price does not go below the original price
-        return { ...item, currentPrice: item.currentPrice / 2 };
+      if (idx === index && item.quantity > 1) { // Ensure quantity does not go below 1
+        return { ...item, quantity: item.quantity - 1 };
       }
       return item;
     });
@@ -39,20 +38,19 @@ const Cart = ({ route }) => {
 
   const handleOrders = async () => {
     const userId = user.userId; 
-     const name=user.name;
+    const name = user.name;
     const phone = user.phone;
     const address = user.address;
-  
+
     // Map items to fit backend schema requirements
     const items = cartItems.map(item => ({
-      cheeseId: item.cheeseId,  
+      cheeseId: item.id,  
       quantity: item.quantity,
       price: item.currentPrice,  // This sends the currentPrice as the price
-  }));
-  
-  
+    }));
+
     const priceTotal = getTotalPrice();
-  
+
     try {
       const response = await fetch('http://192.168.1.14:4000/api/order/add', {
         method: 'POST',
@@ -68,11 +66,11 @@ const Cart = ({ route }) => {
           priceTotal,
         }),
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
-        Alert.alert('Success', 'Order placed successfully you want to order more !');
+        Alert.alert('Success', 'Order placed successfully! Do you want to order more?');
         navigation.navigate('Home');
       } else {
         Alert.alert('Error', result.message || 'Failed to place order');
@@ -81,11 +79,9 @@ const Cart = ({ route }) => {
       Alert.alert('Error', 'Failed to send order: ' + error.message);
     }
   };
-  
+
   return (
-    
     <View style={styles.container}>
-      
       {cartItems.map((item, index) => (
         <View key={index} style={styles.itemContainer}>
           <Text style={styles.itemText}>
@@ -94,12 +90,12 @@ const Cart = ({ route }) => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleDecreasePrice(index)}>
+              onPress={() => handleDecreaseQuantity(index)}>
               <Text style={styles.buttonText}>-</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleIncreasePrice(index)}>
+              onPress={() => handleIncreaseQuantity(index)}>
               <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
           </View>
@@ -111,7 +107,7 @@ const Cart = ({ route }) => {
       <View style={{ paddingHorizontal: 80, paddingVertical: 20 }}>
         <TouchableOpacity onPress={handleOrders} style={{ backgroundColor: COLORS.primary, borderRadius: 30, alignItems: 'center' }}>
           <Text style={{ color: COLORS.lightWhite, padding: 10, fontSize: 18 }}>
-            order now 
+            Order Now
           </Text>
         </TouchableOpacity>
       </View>

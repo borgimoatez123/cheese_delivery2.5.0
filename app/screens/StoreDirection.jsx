@@ -10,6 +10,7 @@ const StoreDirection = ({ route }) => {
   const store = Store.find(s => s.name === storeName);
 
   const openGoogleMaps = () => {
+    
     const scheme = Platform.select({
       ios: 'maps:0,0?q=',
       android: 'geo:0,0?q='

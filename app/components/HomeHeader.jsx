@@ -7,7 +7,7 @@ import { UserLocationContext } from "../context/UserLocationContext";
 import * as Location from "expo-location";
 import { useUser } from '../context/UserContext';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons';
 
 const HomeHeader = () => {
   const { user } = useUser();
@@ -15,6 +15,9 @@ const HomeHeader = () => {
   const { location, setLocation } = useContext(UserLocationContext);
 
   const navigation = useNavigation();
+  const goToOrders = () => {
+    navigation.navigate('OrdersScreen');
+  };
   useEffect(() => {
     if (location !== null) {
       reverseGeoCode(location.coords.latitude, location.coords.longitude);
@@ -47,7 +50,18 @@ const HomeHeader = () => {
           >{`${address.city} ${address.name}`}</Text>
         </View>
       </View>
-      
+      <View style={{margin:22}} >
+        <TouchableOpacity onPress={goToOrders}>
+        <FontAwesome name="motorcycle" size={24} color="black"  />
+
+
+        </TouchableOpacity>
+
+    
+        
+
+     
+     </View>
      
     </View>
   );

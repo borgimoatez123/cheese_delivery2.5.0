@@ -1,81 +1,77 @@
-import React, { useState ,useContext} from 'react';
-import { StyleSheet,View, Text, ScrollView ,Image ,TouchableOpacity ,FlatList } from 'react-native';
-import { COLORS, SIZES } from "../constants/theme";
-import {
-  Ionicons
-} from "@expo/vector-icons";
+import React from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, Platform } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { Ionicons } from "@expo/vector-icons";
+import * as Linking from 'expo-linking';
 import { Store } from '../constants/uidata';
 
-const StoreDirection = () => {
+const StoreDirection = ({ route }) => {
+  const { storeName } = route.params;
+  const store = Store.find(s => s.name === storeName);
 
+  const openGoogleMaps = () => {
+    const scheme = Platform.select({
+      ios: 'maps:0,0?q=',
+      android: 'geo:0,0?q='
+    });
+    const latLng = `${store.coords.latitude},${store.coords.longitude}`;
+    const label = encodeURIComponent(store.name);
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
 
+    Linking.openURL(url);
+  };
 
-  
-
-
-    
-  
-  
-  
-    return (
-      <View style={{ backgroundColor: COLORS.lightWhite, height: SIZES.height }}>
-        <Image source={{ uri: Store.image }} style={{ width: SIZES.width, height: SIZES.height / 4, borderBottomRightRadius: 30 }} />
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
-          <Ionicons name="chevron-back-circle" size={30} color={COLORS.primary} />
-        </TouchableOpacity>
-  
-  
-   
-  
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>{Store.name}</Text>
-     
-     
-   
-      </View>
-    );
-}
-
-export default StoreDirection
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: store.coords.latitude,
+          longitude: store.coords.longitude,
+          latitudeDelta: store.coords.latitudeDelta,
+          longitudeDelta: store.coords.longitudeDelta
+        }}
+      >
+        <Marker
+          coordinate={{ latitude: store.coords.latitude, longitude: store.coords.longitude }}
+          title={store.name}
+          description={store.description}
+        />
+      </MapView>
+      <TouchableOpacity onPress={openGoogleMaps} style={styles.button}>
+        <Ionicons name="navigate" size={20} color="white" />
+        <Text style={styles.buttonText}>Open in Google Maps</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    storeCard: {
-      margin: 10,
-      backgroundColor: '#fff',
-      borderRadius: 10,
-      overflow: 'hidden',
-      elevation: 3,
-      shadowRadius: 2,
-      shadowOpacity: 0.1,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 }
-    },
-    storeImage: {
-      width: '100%',
-      height: 200,
-      borderRadius: 10
-    },
-    storeName: {
-      fontWeight: 'bold',
-      fontSize: 16,
-      margin: 8
-    },
-    storeDescription: {
-      color: '#666',
-      fontSize: 14,
-      marginBottom: 8,
-      marginHorizontal: 8
-    },
-    storeAddress: {
-      fontSize: 12,
-      color: '#888',
-      marginBottom: 8,
-      marginHorizontal: 8
-    },
-    storeRating: {
-      fontSize: 12,
-      color: '#444',
-      marginBottom: 8,
-      marginHorizontal: 8,
-      fontWeight: '500'
-    }
-  });
+  container: {
+    flex: 1,
+  },
+  map: {
+    width: '100%',
+    height: '100%',
+  },
+  button: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    padding: 10,
+    backgroundColor: 'royalblue',
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    color: 'white',
+    marginLeft: 5
+  }
+});
+
+export default StoreDirection;

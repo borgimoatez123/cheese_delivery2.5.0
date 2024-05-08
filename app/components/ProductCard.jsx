@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
 import { COLORS, SIZES } from "../constants/theme";
 
 const ProductCard = ({ productName, productPrice,imageUrl, onAddPress }) => {
@@ -9,26 +9,21 @@ const ProductCard = ({ productName, productPrice,imageUrl, onAddPress }) => {
   
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <Text style={styles.title}> {productPrice}</Text>
-      <Button title="Add" style={{}} onPress={onAddPress} />
+      <TouchableOpacity style={styles.addButton} onPress={onAddPress}>
+        <Text style={styles.buttonText}>Buy now</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    shadowOpacity: 0.25,
-    shadowRadius: 5,
-    shadowColor: 'black',
-    shadowOffset: { height: 0, width: 0 },
-    elevation: 5,
+    backgroundColor: 'transparent',
     padding: 10,
     alignItems: 'center',
     margin: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -37,14 +32,21 @@ const styles = StyleSheet.create({
     height: 150,
     marginBottom: 10,
   },
-  restBtn: {
-    borderColor: COLORS.lightWhite,
-    backgroundColor: COLORS.primary,
-    borderWidth: 1,
+  addButton: {
+    backgroundColor: "#FFC72C",  // Your specified color
+    padding: 10,
     borderRadius: 20,
-    padding: 5,
-    marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginTop: 10,
+    width: 100,  // Set a width for the button
+  },
+  buttonText: {
+    color: 'white',  // Set text color to white for better visibility
+    fontSize: 16,  // Optional: Adjust the font size as needed
   }
 });
+
 
 export default ProductCard;

@@ -62,7 +62,14 @@ export const Store=[
         "https://i.ibb.co/q0yfhKX/images-1.jpg",
         "https://i.ibb.co/q0yfhKX/images-1.jpg",
         "https://i.ibb.co/q0yfhKX/images-1.jpg",
-      ]
+      ],
+      "coords": {
+        latitude: 36.72272793895047,
+        longitude: 9.183841154516688,
+        title: "La ferme de Beja",
+        latitudeDelta: 0.0122,
+        longitudeDelta: 0.0221
+      },
     },
     {
       "id": 2,
@@ -81,7 +88,14 @@ export const Store=[
         "https://borjlella.com/fr/wp-content/uploads/2019/01/Borjlella005.jpg",
         "https://borjlella.com/fr/wp-content/uploads/2019/01/Table-borjella.jpg",
         "https://borjlella.com/fr/wp-content/uploads/2019/01/carborjlella.jpg",
-      ]
+      ],
+      "coords": {
+        latitude: 36.72081926057357,
+        longitude: 9.194041419443378,
+        title: "La ferme de Beja",
+        latitudeDelta: 0.0122,
+        longitudeDelta: 0.0221
+      },
     },
     {
       "id": 3,
@@ -92,6 +106,13 @@ export const Store=[
       "stars": 4,
       "reviews": "4.4k",
       "phone":"54 955 155",
+      "coords": {
+        latitude: 36.72272793895047,
+        longitude: 9.183841154516688,
+        title: "La ferme de Beja",
+        latitudeDelta: 0.0122,
+        longitudeDelta: 0.0221
+      },
     },
     {
       "id": 4,
@@ -100,7 +121,14 @@ export const Store=[
       "description": "cheese shop",
       "address": "P5FM+5XF, Beja",
       "stars": 4,
-      "reviews": "4.4k"
+      "reviews": "4.4k",
+      "coords": {
+        latitude: 36.72272793895047,
+        longitude: 9.183841154516688,
+        title: "La ferme de Beja",
+        latitudeDelta: 0.0122,
+        longitudeDelta: 0.0221
+      },
     }
   ]
   export const choicesList = [
@@ -137,3 +165,4 @@ export const Store=[
     "https://borjlella.com/fr/wp-content/uploads/2020/11/Fromage_feta.jpg",
     "https://borjlella.com/fr/wp-content/uploads/2019/01/borjlella0055.jpg",
   ];
+  

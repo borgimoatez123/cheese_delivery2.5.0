@@ -4,12 +4,14 @@ import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 import { categories } from "../constants/uidata";
 import { useNavigation } from '@react-navigation/native';
-
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/CartReducer';
+import { API_URL } from '../constants/theme';
 const CheeseCard = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
     useEffect(() => {
         fetchServerData();
     }, []);
@@ -17,7 +19,7 @@ const CheeseCard = () => {
     const fetchServerData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://192.168.1.14:4000/api/cheese/all');
+            const response = await axios.get(`${API_URL}/api/cheese/all`);
           const serverData = response.data.map(product => {
     const normalizedServerCategory = product.category.trim().toLowerCase();
     const uiProduct = categories.find(({ title }) =>
@@ -25,7 +27,7 @@ const CheeseCard = () => {
     );
     return {
         id: product._id, 
-       
+        category:product.category,
         name: product.name,
         imageUrl: uiProduct ? uiProduct.imageUrl : 'https://via.placeholder.com/150',
         price: product.price,
@@ -42,16 +44,16 @@ const CheeseCard = () => {
         }
     };
 
-    const handleAddPress = (product) => {
-        // Pass data to Cart component via navigation with cheeseId
-        navigation.navigate('Cart', {
-            items: [{
-                id: product.id, 
-                price: product.price,
-                quantity: 1, // Assuming initial quantity
-            }]
-        });
-    };
+       const handleAddPress = (product) => {
+        dispatch(addToCart({
+            _id: product.id,
+            category:product.category,
+            name: product.name,
+            price: product.price,
+            quantity: 1 // Initial quantity when adding to cart
+        }));
+        navigation.navigate('Cart');
+    }; 
     
     if (loading) {
         return (
@@ -79,6 +81,7 @@ const CheeseCard = () => {
 
 export default CheeseCard;
 
+
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'flex-start',
@@ -96,5 +99,8 @@ const styles = StyleSheet.create({
     cardContainer: {
         width: '50%', // Each card takes up half of the container width
         padding: 5, // Optional padding to ensure there's space between cards
+        backgroundColor: 'transparent', // Ensuring the background is transparent
+        shadowOpacity: 0, // Removing any shadow effects
+        elevation: 0, // Removing elevation on Android to prevent any shadow
     }
 });

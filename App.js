@@ -10,7 +10,10 @@ import BottomTab from './app/navigation/BottomTab';
 import * as Location from 'expo-location';
 import InStore from './app/screens/InStore';
 import StoreDirection from './app/screens/StoreDirection';
-import { CartProvider } from './app/context/CartContext';
+import Search from './app/screens/Search';
+import OrdersScreen from './app/screens/OrdersScreen';
+import { Provider } from 'react-redux';
+import Store from'./store';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -34,19 +37,20 @@ const App = () => {
 
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location)
-    console.log(location)
+    console.log('this ',location)
 
     })();
   }, [])
   return (
+    <Provider store={Store}>
     <UserLocationContext.Provider value={{ location, setLocation }}>
       <UserReversedGeoCode.Provider value={{ address, setAddress }}>
       <UserProvider>
-      <CartProvider>
+
         <NavigationContainer>
    
         <Stack.Navigator initialRouteName="Login">
-<Stack.Screen name="Login" component={LoginScreen} />
+<Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
 <Stack.Screen name="SignupScreen" component={SignupScreen} />
           <Stack.Screen
               name='bottom-navigation'
@@ -55,15 +59,18 @@ const App = () => {
             />
 <Stack.Screen name="InStore" component={InStore}  options={{ headerShown: false }}/>
 <Stack.Screen name="StoreDirection" component={StoreDirection}  options={{ headerShown: false }}/>
+<Stack.Screen name="Search" component={Search}  options={{ headerShown: false }}/>
+<Stack.Screen name="OrdersScreen" component={OrdersScreen}  options={{ headerShown: false }}/>
+
 
           </Stack.Navigator>
         
         </NavigationContainer>
-        </CartProvider>
+      
         </UserProvider>
       </UserReversedGeoCode.Provider>
     </UserLocationContext.Provider>
-
+    </Provider>
   );
 };
 

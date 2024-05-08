@@ -57,10 +57,15 @@ const Carousel = ({ images = [] }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'transparent', // Ensures no background issues
+    padding: 0, // Make sure no padding is affecting the layout
+    margin: 0, // 
   },
   scrollViewStyle: {
-    flexGrow: 0
+    flexGrow: 0,
+    backgroundColor: 'transparent', // Ensures no background issues
+    margin: 0, // Explicitly removing margin
   },
   imageStyle: {
     width: width,
@@ -73,7 +78,8 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'transparent', // Ensures no background issues
   },
   dot: {
     height: 8,

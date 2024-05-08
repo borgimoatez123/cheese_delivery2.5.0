@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     searchWrapper: {
         flex: 1,
-        // marginRight: SIZES.small,
+        marginRight: SIZES.small,
         borderRadius: SIZES.small,
     },
     searchBtn: {

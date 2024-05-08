@@ -15,17 +15,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "NSLocationWhenInUseUsageDescription": "This app uses your location to show nearby places."
+
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "permissions": ["ACCESS_FINE_LOCATION"]
       },
       "config": {
         "package": "com.horizon.foodly",
         "googleMaps": {
-          "apiKey": "AIzaSyAYgK10l_C_HG-pSeVBVUxChyGSm6wa78Q"
+          "apiKey": "AIzaSyBDvHVufDyfzmyG8n8m94QatrGJqyHmP6Y"
         }
       },  "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",

@@ -4,7 +4,7 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react
 import { useNavigation } from '@react-navigation/native';
 import { Store } from '../constants/uidata';
 import axios from 'axios'; // Make sure to import axios
-
+import { API_URL } from '../constants/theme';
 const StoreCardHome = () => {
   const navigation = useNavigation();
   const [cheesesData, setCheesesData] = useState([]);
@@ -12,7 +12,7 @@ const StoreCardHome = () => {
   useEffect(() => {
     const fetchCheesesData = async () => {
       try {
-        const response = await axios.get('http://192.168.1.14:4000/api/cheese/all');
+        const response = await axios.get(`${API_URL}/api/cheese/all`);
         const data = response.data;
         if (!Array.isArray(data)) {  // Check if the data is an array
           throw new Error('Data is not an array');
@@ -25,6 +25,7 @@ const StoreCardHome = () => {
   
     fetchCheesesData();
   }, []);
+
   return (
     <View style={{ marginBottom: 20 }}>
       <FlatList

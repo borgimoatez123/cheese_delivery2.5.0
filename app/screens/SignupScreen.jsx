@@ -3,6 +3,7 @@ import { SafeAreaView, View, TextInput, Button, Text, StyleSheet, Alert } from '
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../context/UserContext'; 
+import {API_URL} from '../constants/theme'
 const SignupScreen = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const SignupScreen = () => {
     const { setUser } = useUser();
     const handleSignup = async () => {
         try {
-            const response = await axios.post('http://192.168.1.14:4000/api/users/register', {
+            const response = await axios.post(`${API_URL}/api/users/register`, {
                 name,
                 email,
                 password,

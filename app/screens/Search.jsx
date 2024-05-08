@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity,ScrollView} from "react-native";
 import React,{useRef, useState,useEffect} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants/theme";
@@ -6,6 +6,8 @@ import {Feather, AntDesign } from '@expo/vector-icons';
 import styles from "./search.style";
 import LottieView from "lottie-react-native";
 import axios from 'axios'; // Make sure to import axios
+import {API_URL} from '../constants/theme'
+import SearchCard from "../components/SearchCard";
 const Search = () => {
   const [searchKey, setSearchKey] = useState('')
   const [cheesesData, setCheesesData] = useState([]);
@@ -15,14 +17,14 @@ const Search = () => {
   useEffect(() => {
     const fetchCheesesData = async () => {
       try {
-        const response = await axios.get('http://192.168.1.14:4000/api/cheese/all');
+        const response = await axios.get(`${API_URL}/api/cheese/all`);
         const data = response.data;
         if (!Array.isArray(data)) {  // Check if the data is an array
           throw new Error('Data is not an array');
         }
         setCheesesData(data);
       } catch (error) {
-        console.error('Failed to fetch food data:', error);
+        console.error('Failed to fetch cheese data:', error);
       }
     };
   
@@ -31,26 +33,21 @@ const Search = () => {
 
   const handleSearch = () => {
     if (searchKey.trim()) {
-      // Filter cheeses data based on search key
       const filteredCheeses = cheesesData.filter(cheese =>
         cheese.name.toLowerCase().includes(searchKey.toLowerCase())
       );
       setSearchResults(filteredCheeses);
     } else {
-      // If the search key is empty, clear results
       setSearchResults([]);
     }
   };
-  const renderItem = ({ item }) => (
-    <View style={styles.listItem}>
-      <Text style={styles.listItemText}>{item.name}</Text>
-    </View>
-  );
+
 console.log('jtt ',searchResults)
   return (
     <SafeAreaView>
-      <View style={{backgroundColor: COLORS.primary, height: SIZES.height}}>
-      <View style={{backgroundColor: COLORS.offwhite, height: SIZES.height-140, borderBottomEndRadius: 30, borderBottomStartRadius: 30}}>
+      <ScrollView>
+      <View >
+      <View >
       <View style={styles.searchContainer}>
     
       <View style={styles.searchWrapper}>
@@ -67,9 +64,10 @@ console.log('jtt ',searchResults)
         <Feather name='search' size={24} color={COLORS.secondary}/>
       </TouchableOpacity>
     </View>
-
+  
+<View>
     {searchResults.length === 0 ? (
-      <View style={{width: SIZES.width, height: SIZES.height/1.5, right: 90}}>
+      <View style={{width: SIZES.width, height: SIZES.height/1.5}}>
          <LottieView
           autoPlay
           ref={animation}
@@ -78,15 +76,22 @@ console.log('jtt ',searchResults)
         />
       </View>
     ): (
+   
       <FlatList
       data={searchResults}
-      renderItem={renderItem}
-      keyExtractor={item => item._id}  // Use a unique property of your data, like `_id`
+      renderItem={({ item }) => <SearchCard item={item} />}
+      keyExtractor={item => item._id}  
+      numColumns={2} // Use a unique property of your data, like `_id`
+    
       contentContainerStyle={styles.list}
     />
+   
     )}
+</View>
+
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

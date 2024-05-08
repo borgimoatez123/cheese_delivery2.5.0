@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import Home from "../screens/HomeScreen ";
-import Search from "../screens/Search";
+import OrdersScreen from "../screens/OrdersScreen";
 import { COLORS } from "../constants/theme";
 import ProfileScreen from "../screens/Profile";
 import Cart from "../screens/Cart";
@@ -46,22 +46,7 @@ const BottomTab = () => {
         }}
       />
 
-      <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          tabBarStyle: tabBarStyle,
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? "search" : "search"}
-              color={focused ? COLORS.secondary : COLORS.secondary1}
-              size={26}
-            />
-          ),
-        }}
-      />
+   
 
       <Tab.Screen
         name="Cart"
@@ -117,6 +102,8 @@ const BottomTab = () => {
           ),
         }}
       />
+    
+
     </Tab.Navigator>
   
   );

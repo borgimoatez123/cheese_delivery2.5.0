@@ -7,9 +7,10 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { EvilIcons } from '@expo/vector-icons';
 import Carousel from '../components/Carousel';
-
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/CartReducer';
 const InStore = ({ route, navigation }) => {
-
+  const dispatch = useDispatch();
   
   const { storeData, storeName, carouselImages ,phone } = route.params;
 
@@ -26,13 +27,13 @@ const InStore = ({ route, navigation }) => {
 console.log(handleSelectItem)
 const handleConfirm = () => {
   const selectedItemsDetails = storeData.filter(item => selectedItems[item._id] > 0).map(item => {
-    return {
-      id: item._id,  
-      cheeseId: item._id,  
+    dispatch(addToCart({
+      _id: item._id,
       name: item.name,
+      category:item.category,
       price: item.price,
       quantity: selectedItems[item._id]
-    };
+    }));
   });
 
   if (selectedItemsDetails.length > 0) {
@@ -57,17 +58,19 @@ const handleConfirm = () => {
         onPress={(isChecked) => handleSelectItem(item._id, isChecked)}
       />
       <Text style={styles.small}>Prix: {item.price} TND</Text>
+   
     </View>
   );
 
   return (
+    <ScrollView style={{ padding: 5 }}>
     <View style={{ backgroundColor: COLORS.lightWhite, height: SIZES.height }}>
-  <Carousel images={carouselImages} style={{ width: SIZES.width, height: SIZES.height / 4, borderBottomRightRadius: 30 }} />
+  <Carousel images={carouselImages} style={{ width: SIZES.width, height: SIZES.height / 4, borderBottomRightRadius: 50 }} />
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backbtn}>
         <Ionicons name="chevron-back-circle" size={30} color={COLORS.primary} />
       </TouchableOpacity>
       <TouchableOpacity
-          onPress={() => navigation.navigate('StoreDirection')}
+          onPress={() => navigation.navigate('StoreDirection',{ storeName: storeName })}
           style={{ position: "absolute", bottom: 25, right: 3 }}
         >
           <View style={styles.restBtn}>
@@ -78,13 +81,14 @@ const handleConfirm = () => {
         </TouchableOpacity>
       <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>{storeName}</Text>
       <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>{phone}</Text>
-      <ScrollView style={{ padding: 20 }}>
+
         <FlatList
           data={storeData}
           renderItem={renderItem}
           keyExtractor={item => item._id}
+          ListEmptyComponent={<Text>No data available</Text>}
         />
-      </ScrollView>
+
       <View style={{ paddingHorizontal: 80, paddingVertical: 20 }}>
         <TouchableOpacity onPress={handleConfirm} style={{ backgroundColor: COLORS.primary, borderRadius: 30, alignItems: 'center' }}>
           <Text style={{ color: COLORS.lightWhite, padding: 10, fontSize: 18 }}>
@@ -93,6 +97,7 @@ const handleConfirm = () => {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 };
 export default InStore;

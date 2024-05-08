@@ -55,6 +55,6 @@ const SHADOWS = {
     elevation: 5,
   },
 };
-const API_URL = 'http://192.168.1.14:4000/api/user'; // Change this to match your backend URL
+const API_URL = 'http://192.168.1.14:4000'; // centre elife = 10.2.40.64 ---my 192.168.1.14 
 
 export { COLORS, SIZES , SHADOWS ,API_URL};

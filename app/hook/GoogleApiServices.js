@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const apiKey = "AIzaSyAYgK10l_C_HG-pSeVBVUxChyGSm6wa78Q"; // Replace with your API Key
+const apiKey = "AIzaSyBDvHVufDyfzmyG8n8m94QatrGJqyHmP6Y"; 
 
 const calculateDistanceAndTime = async (startLat, startLng, destinationLat, destinationLng, mode = 'bicycling') => {
     const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?";
@@ -45,10 +45,29 @@ const extractNumbers = (inputStr) =>{
     const matched = inputStr.match(/\d+/g);
     return matched ? matched.map(num => parseInt(num, 10)) : [];
 }
+const getDirections = async (startLat, startLng, destinationLat, destinationLng) => {
+    const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${destinationLat},${destinationLng}&key=${apiKey}`;
+    
+    try {
+        const response = await axios.get(directionsUrl);
+        const data = response.data;
+        if (data.status !== 'OK') {
+            console.error("Error fetching directions:", data.status);
+            return null;
+        }
+        const points = data.routes[0].overview_polyline.points;
+        const steps = decodePolyline(points); // Function to decode polyline points
+        return steps;
+    } catch (error) {
+        console.error("Failed to fetch directions:", error);
+        return null;
+    }
+};
 
 
 export default {
     calculateDistanceAndTime,
     extractNumbers,
+    getDirections,
     apiKey
 }
